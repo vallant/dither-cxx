@@ -8,6 +8,7 @@
  */
 
 #include "simple_constraint_handler.h"
+
 #include <iostream>
 
 namespace dither {
@@ -126,4 +127,4 @@ LOOP:
 
   return true;
 }
-}
+}  // namespace dither

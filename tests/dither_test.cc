@@ -7,15 +7,18 @@
  * of the BSD license.  See the LICENSE file for details.
  */
 
-#include <gtest/gtest.h>
 #include "dither.h"
-#include "dither_types.h"
-#include <iostream>
-#include <vector>
-#include <string>
-#include <sstream>
+
+#include <gtest/gtest.h>
+
 #include <algorithm>
 #include <array>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "dither_types.h"
 
 TEST(IpogTest, 2Way) {
   int nums[] = {1, 2, 3, 4};
@@ -27,17 +30,37 @@ TEST(IpogTest, 2Way) {
   dither_ipog_display_raw_solution(ipog);
   std::cout << dither_ipog_size(ipog) << std::endl;
   ASSERT_EQ(dither_ipog_size(ipog), 12);
-  
-  std::array<int, 12 * 3> buffer;
-  dither_ipog_fill(ipog, buffer.data());
-  for (size_t i = 0; i < 12 * 3; ++i)
-  buffer[i] = nums[buffer[i]];
 
-  std::array<int, 12 * 3> reference = {
-    4,3,1,4,2,2,4,1,1,3,3,2,3,2,1,3,1,2,
-    2,3,1,2,2,2,2,1,1,1,3,1,1,2,2,1,1,1};
+  std::vector<int> buffer(12 * 3);
+  dither_ipog_fill(ipog, buffer.data());
+  for (size_t i = 0; i < 12 * 3; ++i) buffer[i] = nums[buffer[i]];
+
+  std::vector<int> reference = {4, 3, 1, 4, 2, 2, 4, 1, 1, 3, 3, 2,
+                                3, 2, 1, 3, 1, 2, 2, 3, 1, 2, 2, 2,
+                                2, 1, 1, 1, 3, 1, 1, 2, 2, 1, 1, 1};
 
   ASSERT_EQ(buffer, reference);
+  dither_ipog_delete(ipog);
+}
+
+TEST(IpogTest, 2WayFillRawSolution) {
+  int nums[] = {1, 2, 3, 4};
+  ipog_handle ipog = dither_ipog_new(2);
+  dither_ipog_add_parameter_int(ipog, 0, nums, 4);
+  dither_ipog_add_parameter_int(ipog, 1, nums, 3);
+  dither_ipog_add_parameter_int(ipog, 2, nums, 2);
+  dither_ipog_run(ipog);
+  std::vector<std::vector<int>> reference = {
+      {4, 3, 1}, {4, 2, 2}, {4, 1, 1}, {3, 3, 2}, {3, 2, 1}, {3, 1, 2},
+      {2, 3, 1}, {2, 2, 2}, {2, 1, 1}, {1, 3, 1}, {1, 2, 2}, {1, 1, 1}};
+  std::vector<int> actual(3, 0);
+
+  for (size_t i = 0; i < dither_ipog_size(ipog); ++i) {
+    auto result = dither_ipog_fill_raw_solution(
+        ipog, i, actual.data(), actual.size(), nums, sizeof(nums));
+    ASSERT_TRUE(result);
+    ASSERT_EQ(actual, reference[i]);
+  }
   dither_ipog_delete(ipog);
 }
 

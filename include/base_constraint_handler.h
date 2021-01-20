@@ -11,6 +11,7 @@
 #define BASE_CONSTRAINT_HANDLER_H_
 
 #include <vector>
+
 #include "dither_types.h"
 
 namespace dither {
@@ -38,5 +39,5 @@ class BaseConstraintHandler {
     return true;
   }
 };
-}
+}  // namespace dither
 #endif  // BASE_CONSTRAINT_HANDLER_H_

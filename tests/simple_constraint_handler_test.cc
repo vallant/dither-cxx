@@ -7,8 +7,10 @@
  * of the BSD license.  See the LICENSE file for details.
  */
 
-#include <gtest/gtest.h>
 #include "simple_constraint_handler.h"
+
+#include <gtest/gtest.h>
+
 #include <vector>
 
 TEST(SimpleConstraintHandlerTest, canCreate) {

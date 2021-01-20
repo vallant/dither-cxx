@@ -27,6 +27,6 @@ struct param {
   unsigned char type;
 };
 typedef std::vector<dval> dtest_case;
-}
+}  // namespace dither
 
 #endif

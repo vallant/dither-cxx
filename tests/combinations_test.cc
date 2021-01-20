@@ -8,8 +8,10 @@
  * of the BSD license.  See the LICENSE file for details.
  */
 
-#include <gtest/gtest.h>
 #include "combinations.h"
+
+#include <gtest/gtest.h>
+
 #include <vector>
 
 /* product3 should be ~10% faster than product */

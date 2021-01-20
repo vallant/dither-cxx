@@ -10,10 +10,11 @@
 #ifndef COMBINATIONS_H_
 #define COMBINATIONS_H_
 
-#include <vector>
-#include <forward_list>
 #include <algorithm>
+#include <forward_list>
 #include <memory>
+#include <vector>
+
 #include "dither_types.h"
 
 namespace dither {
@@ -74,7 +75,9 @@ void combinations(const int n, const std::vector<int>& input,
     gcombinations_(input, scratch, output);
     while (1) {
       int i;
-      for (i = n - 1; (i >= 0) && (scratch[i] == static_cast<int>(input.size() - n + i)); i--)
+      for (i = n - 1;
+           (i >= 0) && (scratch[i] == static_cast<int>(input.size() - n + i));
+           i--)
         ;
 
       if (i < 0) {
@@ -161,7 +164,7 @@ inline std::size_t product4(std::forward_list<param**>& results,
                             param** param_cache,
                             std::vector<std::vector<param>*>& param_matrix) {
   std::vector<int> ranges;
-  std::unique_ptr<param* []> scratch_ptr(new param*[param_matrix.size()]);
+  std::unique_ptr<param*[]> scratch_ptr(new param*[param_matrix.size()]);
   auto scratch = scratch_ptr.get();
   for (std::size_t j = 0; j < param_matrix.size(); j++) {
     ranges.push_back(param_matrix[j]->size() - 1);
@@ -196,6 +199,6 @@ inline std::size_t product4(std::forward_list<param**>& results,
     }
   }
 }
-}
+}  // namespace dither
 
 #endif

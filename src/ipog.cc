@@ -8,13 +8,15 @@
  */
 
 #include "ipog.h"
+
+#include <limits.h>
+
+#include <cstddef>
 #include <forward_list>
 #include <iterator>
-#include <utility>
-#include <tuple>
-#include <limits.h>
-#include <cstddef>
 #include <memory>
+#include <tuple>
+#include <utility>
 
 namespace dither {
 
@@ -322,10 +324,11 @@ void Ipog::init_param_cache() {
         std::make_tuple((*it).first, DITHER_BOOL_T, (*it).second.size()));
   }
 
-  std::sort(tmp.begin(), tmp.end(), [](std::tuple<std::string, int, int> a,
-                                       std::tuple<std::string, int, int> b) {
-    return std::get<2>(a) > std::get<2>(b);
-  });
+  std::sort(tmp.begin(), tmp.end(),
+            [](std::tuple<std::string, int, int> a,
+               std::tuple<std::string, int, int> b) {
+              return std::get<2>(a) > std::get<2>(b);
+            });
 
   std::unordered_map<std::string, int> original_name_to_index;
   int count = 0;
@@ -443,6 +446,29 @@ void Ipog::fill(int *solution) {
   }
 }
 
+bool Ipog::fill_raw_solution(unsigned int index, int *buffer,
+                             unsigned int buffer_size, const int *values,
+                             unsigned int values_size) {
+  if (index >= size()) return false;
+
+  if (buffer_size < int_params_.size()) return false;
+
+  // find right solution
+  auto it = bound_.cbegin();
+  for (size_t i = 0; i < index; ++i, ++it)
+    ;
+
+  // fill values
+  std::size_t i = 0;
+  for (auto iit = (*it).cbegin(); iit != (*it).cend(); ++iit, ++i) {
+    auto value_index = *iit;
+    if (value_index >= values_size) return false;
+    buffer[i] = values[value_index];
+  }
+
+  return true;
+}
+
 void Ipog::add_previously_tested(const int values[], const std::size_t length) {
   std::vector<dval> tmp(length);
   std::copy(values, values + length, tmp.begin());
@@ -504,4 +530,4 @@ inline bool Ipog::has_previously_tested(const int k, dtest_case &test_case) {
   }
   return false;
 }
-}
+}  // namespace dither

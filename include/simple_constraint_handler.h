@@ -10,11 +10,12 @@
 #ifndef SIMPLE_CONSTRAINT_HANDLER_H_
 #define SIMPLE_CONSTRAINT_HANDLER_H_
 
-#include <vector>
-#include <utility>
 #include <algorithm>
-#include "dither_types.h"
+#include <utility>
+#include <vector>
+
 #include "base_constraint_handler.h"
+#include "dither_types.h"
 
 namespace dither {
 
@@ -37,6 +38,6 @@ class SimpleConstraintHandler : public BaseConstraintHandler {
   bool violate_constraints(param** test_case, const std::size_t length);
   bool ground(dtest_case& test_case);
 };
-}
+}  // namespace dither
 
 #endif  // SIMPLE_CONSTRAINT_HANDLER_H_

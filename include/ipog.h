@@ -10,16 +10,17 @@
 #ifndef IPOG_H_
 #define IPOG_H_
 
-#include <vector>
-#include <iostream>
-#include <forward_list>
 #include <algorithm>
+#include <forward_list>
+#include <iostream>
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <memory>
+#include <vector>
+
+#include "base_constraint_handler.h"
 #include "combinations.h"
 #include "dither_types.h"
-#include "base_constraint_handler.h"
 #include "simple_constraint_handler.h"
 
 namespace dither {
@@ -98,6 +99,10 @@ class Ipog {
     std::cout << std::endl;
   }
 
+  bool fill_raw_solution(unsigned int index, int *buffer,
+                         unsigned int buffer_size, const int *values,
+                         unsigned int values_size);
+
   inline void display_test_case(const dtest_case &test_case) {
     for (std::size_t i = 0; i < test_case.size();) {
       const dval value = test_case[i];
@@ -129,6 +134,6 @@ class Ipog {
     std::cout << std::endl;
   }
 };
-}
+}  // namespace dither
 
 #endif
