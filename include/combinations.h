@@ -66,7 +66,7 @@ void combinations(const int n, const std::vector<int>& input,
                   std::forward_list<std::vector<int>>& output) {
   std::vector<int> scratch(n);
 
-  if (n <= input.size()) {
+  if (n <= static_cast<int>(input.size())) {
     for (int i = 0; i < n; i++) {
       scratch[i] = i;
     }
@@ -74,7 +74,7 @@ void combinations(const int n, const std::vector<int>& input,
     gcombinations_(input, scratch, output);
     while (1) {
       int i;
-      for (i = n - 1; (i >= 0) && (scratch[i] == (input.size() - n + i)); i--)
+      for (i = n - 1; (i >= 0) && (scratch[i] == static_cast<int>(input.size() - n + i)); i--)
         ;
 
       if (i < 0) {
@@ -174,7 +174,7 @@ inline std::size_t product4(std::forward_list<param**>& results,
   std::size_t j = 0;
   for (std::size_t i = max;;) {
     if (i == max) {
-      for (std::size_t val = 0; val <= ranges[i]; val++) {
+      for (std::size_t val = 0; static_cast<int>(val) <= ranges[i]; val++) {
         scratch[i] = &(*param_matrix[i])[indexes[i]];
         std::copy(scratch, scratch + length, param_cache);
         results.push_front(param_cache);

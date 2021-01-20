@@ -55,7 +55,7 @@ void Ipog::init_bound() {
 
 inline param **Ipog::cover(const int k, std::forward_list<param **> &coverage) {
   std::vector<int> input(k);
-  for (std::size_t i = 0; i < k; i++) {
+  for (int i = 0; i < k; i++) {
     input[i] = i;
   }
 
