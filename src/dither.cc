@@ -50,10 +50,10 @@ void dither_ipog_add_previously_tested(ipog_handle self, const int tested[],
   static_cast<dither::Ipog *>(self)->add_previously_tested(tested, length);
 }
 
-bool dither_ipog_fill_raw_solution(ipog_handle self, unsigned int index,
-                                   int *buffer, unsigned int buffer_size,
-                                   const int *values,
-                                   unsigned int values_size) {
-  return static_cast<dither::Ipog *>(self)->fill_raw_solution(
-      index, buffer, buffer_size, values, values_size);
+bool dither_ipog_fill_next_raw_solution(ipog_handle self, int *buffer,
+                                        unsigned int buffer_size,
+                                        const int *values,
+                                        unsigned int values_size) {
+  return static_cast<dither::Ipog *>(self)->fill_next_raw_solution(
+      buffer, buffer_size, values, values_size);
 }

@@ -163,6 +163,7 @@ void Ipog::run() {
   }
 
   ground_solutions();
+  bound_it_ = bound_.cbegin();
 }
 
 /* -1 no merge, 0 perfect merge (no unbound), 1 partial merge */
@@ -446,26 +447,20 @@ void Ipog::fill(int *solution) {
   }
 }
 
-bool Ipog::fill_raw_solution(unsigned int index, int *buffer,
-                             unsigned int buffer_size, const int *values,
-                             unsigned int values_size) {
-  if (index >= size()) return false;
+bool Ipog::fill_next_raw_solution(int *buffer, unsigned int buffer_size,
+                                  const int *values, unsigned int values_size) {
+  if (bound_it_ == bound_.cend()) return false;
 
   if (buffer_size < int_params_.size()) return false;
 
-  // find right solution
-  auto it = bound_.cbegin();
-  for (size_t i = 0; i < index; ++i, ++it)
-    ;
-
-  // fill values
   std::size_t i = 0;
-  for (auto iit = (*it).cbegin(); iit != (*it).cend(); ++iit, ++i) {
+  for (auto iit = (*bound_it_).cbegin(); iit != (*bound_it_).cend();
+       ++iit, ++i) {
     auto value_index = *iit;
     if (value_index >= values_size) return false;
     buffer[i] = values[value_index];
   }
-
+  ++bound_it_;
   return true;
 }
 

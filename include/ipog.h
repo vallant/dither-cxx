@@ -46,6 +46,7 @@ class Ipog {
   std::size_t solution_size;
   std::vector<std::vector<dval>> original_previously_tested_;
   std::vector<std::vector<dval>> previously_tested_;
+  std::forward_list<dtest_case>::const_iterator bound_it_;
 
   inline void transform(std::vector<dval> &scratch,
                         std::vector<dval> &test_case) {
@@ -99,9 +100,8 @@ class Ipog {
     std::cout << std::endl;
   }
 
-  bool fill_raw_solution(unsigned int index, int *buffer,
-                         unsigned int buffer_size, const int *values,
-                         unsigned int values_size);
+  bool fill_next_raw_solution(int *buffer, unsigned int buffer_size,
+                              const int *values, unsigned int values_size);
 
   inline void display_test_case(const dtest_case &test_case) {
     for (std::size_t i = 0; i < test_case.size();) {

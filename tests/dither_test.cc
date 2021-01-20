@@ -55,12 +55,14 @@ TEST(IpogTest, 2WayFillRawSolution) {
       {2, 3, 1}, {2, 2, 2}, {2, 1, 1}, {1, 3, 1}, {1, 2, 2}, {1, 1, 1}};
   std::vector<int> actual(3, 0);
 
-  for (size_t i = 0; i < dither_ipog_size(ipog); ++i) {
-    auto result = dither_ipog_fill_raw_solution(
-        ipog, i, actual.data(), actual.size(), nums, sizeof(nums));
-    ASSERT_TRUE(result);
-    ASSERT_EQ(actual, reference[i]);
-  }
+  size_t i = 0;
+  while (dither_ipog_fill_next_raw_solution(ipog, actual.data(), actual.size(),
+                                            nums, sizeof(nums))) {
+    ASSERT_EQ(reference[i], actual);
+    ++i;
+  };
+  ASSERT_EQ(i, 12);
+
   dither_ipog_delete(ipog);
 }
 

@@ -30,7 +30,7 @@ void dither_ipog_add_constraint(ipog_handle self, const int[], const int);
 void dither_ipog_add_previously_tested(ipog_handle self, const int[],
                                        const int);
 
-bool dither_ipog_fill_raw_solution(ipog_handle, unsigned int, int[],
-                                   unsigned int, const int[], unsigned int);
+bool dither_ipog_fill_next_raw_solution(ipog_handle, int[], unsigned int,
+                                        const int[], unsigned int);
 }
 #endif  // DITHER_H_
