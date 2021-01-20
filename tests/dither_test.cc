@@ -15,6 +15,7 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include <array>
 
 TEST(IpogTest, 2Way) {
   int nums[] = {1, 2, 3, 4};
@@ -26,6 +27,17 @@ TEST(IpogTest, 2Way) {
   dither_ipog_display_raw_solution(ipog);
   std::cout << dither_ipog_size(ipog) << std::endl;
   ASSERT_EQ(dither_ipog_size(ipog), 12);
+  
+  std::array<int, 12 * 3> buffer;
+  dither_ipog_fill(ipog, buffer.data());
+  for (size_t i = 0; i < 12 * 3; ++i)
+  buffer[i] = nums[buffer[i]];
+
+  std::array<int, 12 * 3> reference = {
+    4,3,1,4,2,2,4,1,1,3,3,2,3,2,1,3,1,2,
+    2,3,1,2,2,2,2,1,1,1,3,1,1,2,2,1,1,1};
+
+  ASSERT_EQ(buffer, reference);
   dither_ipog_delete(ipog);
 }
 
